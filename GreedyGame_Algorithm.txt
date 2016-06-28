@@ -1,0 +1,118 @@
+Algorithm:
+
+//initializing variables for total and valid no. of sessions
+
+
+public static int total=0, valid=0;
+
+//HashMap for ggstart and ggstop
+
+public static Map<Long,Date> start_hashMap = new HashMap<Long,Date>();
+
+public static Map<Long,Date> stop_hashMap = new HashMap<Long,Date>();
+
+// Array to store the valid session times
+
+
+public static long valid_sessionTime =0;
+
+//'calculate_Sessions' will calculate total No. of sessions, valid No. of sessions, valid session time, Average valid session time and prints them on console
+
+calculate_Sessions(Event, Timestamp,Game_ID)
+
+{
+
+        if(Event == “ggstart”)
+
+         {
+
+                  if(new Game_ID){ 
+			//if both hashmaps does not contain the timestamp corresponding to given ID
+
+                           store value in start_hashMap
+ 
+                           total++
+
+                               }
+
+                   else if(Game_ID is in stop_hashMAp){
+			 //already ggstop has come now check whether it is same id or new one
+
+                                   if(it is also in start_hashMap){
+
+                                   calculate the difference of time
+
+                                             if(difference > 30 seconds)
+
+                                                  //new session
+
+                                                  total++
+
+                                                  }
+
+                            remove the entry from stop_hashMap
+                            store/replace the value in start_hashMap
+                             
+					}
+
+                    else if(Game_ID is not present in stop_hashMap but in start_hashMap)
+			   //ggstop may not delivered so replace new timestamp in start_hashMap
+
+                            replace the value in start_hashMap
+
+          }
+
+         else if(Event == “ggstop”)
+
+          	{
+
+                                if(Game_ID is in start_hashMap but not in stop_hashMap){ 
+					//Game_ID is present in start_hashmap but not in stop_hashmap
+
+                                store the value in stop_hashMap
+
+                                   calculate the time difference between ggstop and ggstart
+
+                                                         if(difference> 60 seconds)
+
+                                                              {
+
+                                                          store session time and increment valid variable
+
+                                                               }
+
+                                  else{
+
+                                          //Considering 3 cases
+
+                                           //1. ggstart may not delivered and stop_hashmap does not have corresponding ID
+
+                                           //2. ggstart may not delivered and stop_hashmap have corresponding ID
+
+                                           //3. ggstart  delivered and start_hashmap,stop_hashmap have corresponding ID which means first ggstart then ggstop then again ggstop of same ID
+
+                                                   (second ggstart may not delivered)
+
+
+                                            //for all the cases add timestamp to corresponding key and increment total
+
+                                          store it in stop_hashMap
+
+                                          total++;
+
+                                            }
+
+
+
+                  }
+
+         else    {
+			 System.out.println("Event should be ggstart or ggstop");
+
+                         return;
+
+                  }
+
+
+
+  }
